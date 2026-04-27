@@ -9,8 +9,7 @@ if (!function_exists('e')) {
 if (!function_exists('sayf')) {
     function sayf(string $yol): string
     {
-        $temizYol = preg_replace('/\.php$/', '', $yol);
-        return APP_URL . '/' . ltrim($temizYol, '/');
+        return rtrim(APP_URL, '/') . '/' . ltrim($yol, '/');
     }
 }
 if (!function_exists('aktifMi')) {

@@ -1192,6 +1192,13 @@ const App = {
         document.querySelectorAll('[data-onay]').forEach(btn => {
             btn.addEventListener('click', e => {
                 e.preventDefault();
+                const doAction = () => {
+                    if (btn.hasAttribute('href') && btn.getAttribute('href') && btn.getAttribute('href') !== '#') {
+                        window.location.href = btn.getAttribute('href');
+                    } else if (btn.closest('form')) {
+                        btn.closest('form').submit();
+                    }
+                };
                 if (typeof Swal !== 'undefined') {
                     Swal.fire({
                         title: 'Emin misiniz?',
@@ -1205,12 +1212,10 @@ const App = {
                         background: 'var(--arkaplan-kart)',
                         color: 'var(--metin-birincil)'
                     }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = btn.href;
-                        }
+                        if (result.isConfirmed) doAction();
                     });
                 } else {
-                    if (confirm(btn.dataset.onay)) window.location.href = btn.href;
+                    if (confirm(btn.dataset.onay)) doAction();
                 }
             });
         });
