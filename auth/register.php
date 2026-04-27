@@ -118,6 +118,13 @@ render:
     <link rel="stylesheet" href="<?= sayf('assets/css/style.css') ?>?v=<?= time() ?>">
 </head>
 <body class="auth-body">
+    <style>
+        .toggle-password svg {
+            position: static !important;
+            left: auto !important;
+            pointer-events: none !important;
+        }
+    </style>
     <div class="auth-wrapper">
         <div class="auth-form-side">
             <div class="auth-header">
@@ -182,18 +189,24 @@ render:
                 <div class="auth-input-grid">
                     <div class="auth-form-group">
                         <label class="auth-label">Şifre</label>
-                        <div class="auth-input-box">
+                        <div class="auth-input-box" style="position: relative;">
                             <?= svgIkon('lock') ?>
                             <input class="auth-input" type="password" name="sifre" id="reg_sifre"
-                                   placeholder="••••••••" required minlength="8">
+                                   placeholder="••••••••" required minlength="8" style="padding-right: 2.5rem;">
+                            <button type="button" class="toggle-password" onclick="togglePassword(this, 'reg_sifre')" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--auth-text-muted); padding: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px;" title="Şifreyi Göster/Gizle">
+                                <?= svgIkon('eye') ?>
+                            </button>
                         </div>
                     </div>
                     <div class="auth-form-group">
                         <label class="auth-label">Tekrar</label>
-                        <div class="auth-input-box">
+                        <div class="auth-input-box" style="position: relative;">
                             <?= svgIkon('check') ?>
-                            <input class="auth-input" type="password" name="sifre_tekrar"
-                                   placeholder="••••••••" required>
+                            <input class="auth-input" type="password" name="sifre_tekrar" id="reg_sifre_tekrar"
+                                   placeholder="••••••••" required style="padding-right: 2.5rem;">
+                            <button type="button" class="toggle-password" onclick="togglePassword(this, 'reg_sifre_tekrar')" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--auth-text-muted); padding: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px;" title="Şifreyi Göster/Gizle">
+                                <?= svgIkon('eye') ?>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -345,6 +358,18 @@ render:
                 }
             });
         });
+    </script>
+    <script>
+    function togglePassword(btn, inputId) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.innerHTML = '<?= str_replace("'", "\'", svgIkon('eye-off')) ?>';
+        } else {
+            input.type = 'password';
+            btn.innerHTML = '<?= str_replace("'", "\'", svgIkon('eye')) ?>';
+        }
+    }
     </script>
 </body>
 </html>
