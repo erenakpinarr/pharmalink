@@ -3880,42 +3880,32 @@ input:checked+.toggle-kaydir:before {
     align-self: flex-end;
 }
 
-.ai-chat-form {
+.ai-options {
     display: flex;
-    padding: 0.75rem;
-    background: white;
-    border-top: 1px solid var(--kenar-rengi);
+    flex-wrap: wrap;
     gap: 0.5rem;
+    margin-top: 0.75rem;
 }
 
-.ai-chat-form input {
-    flex: 1;
-    padding: 0.75rem;
-    border: 1px solid var(--kenar-rengi);
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.2s;
+.ai-option-btn {
+    background: transparent;
+    color: var(--renk-birincil);
+    border: 1px solid var(--renk-birincil);
+    padding: 0.4rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.ai-chat-form input:focus {
-    border-color: var(--renk-birincil);
-}
-
-.ai-chat-form button {
+.ai-option-btn:hover {
     background: var(--renk-birincil);
     color: white;
-    border: none;
-    width: 40px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
 }
 
-.ai-chat-form button:hover {
-    background: var(--renk-birincil-koyu);
+.ai-chat-form {
+    display: none;
 }
 
 .typing-indicator span {

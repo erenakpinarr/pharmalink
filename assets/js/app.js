@@ -671,8 +671,6 @@ class PharmaBot {
         this.widget = document.getElementById('aiChatWidget');
         this.toggleBtn = document.getElementById('aiChatToggle');
         this.closeBtn = document.getElementById('aiChatClose');
-        this.form = document.getElementById('aiChatForm');
-        this.input = document.getElementById('aiChatInput');
         this.messages = document.getElementById('aiChatMessages');
         
         if (this.widget && this.toggleBtn) {
@@ -681,40 +679,78 @@ class PharmaBot {
     }
     
     init() {
+        this.messages.addEventListener('click', (e) => {
+            if (e.target.classList.contains('ai-option-btn')) {
+                const text = e.target.textContent.trim();
+                this.sendMessage(text);
+            }
+        });
+
         this.toggleBtn.addEventListener('click', () => {
             this.widget.classList.toggle('open');
-            if (this.widget.classList.contains('open')) {
-                this.input.focus();
-            }
         });
         
         this.closeBtn.addEventListener('click', () => {
             this.widget.classList.remove('open');
         });
+    }
+    
+    async sendMessage(text) {
+        this.addMessage(text, 'user');
+        this.showTyping();
         
-        this.form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const text = this.input.value.trim();
-            if (!text) return;
-            
-            this.addMessage(text, 'user');
-            this.input.value = '';
-            
-            this.showTyping();
-            
-            try {
-                const data = await ApiService.post('/api/ai_chat.php', { mesaj: text });
-                this.removeTyping();
-                if (data.basari) {
-                    this.addMessage(data.cevap, 'bot');
-                } else {
-                    this.addMessage("Üzgünüm, bir hata oluştu: " + data.mesaj, 'bot');
+        try {
+            const data = await ApiService.post('/api/ai_chat.php', { mesaj: text });
+            this.removeTyping();
+            if (data.basari) {
+                this.addMessage(data.cevap, 'bot');
+                if (data.moda === 'ilac_bekleniyor') {
+                    this.showInlineInput();
                 }
-            } catch (err) {
-                this.removeTyping();
-                this.addMessage("Bağlantı hatası oluştu.", 'bot');
+            } else {
+                this.addMessage('Üzgünüm, bir hata oluştu.', 'bot');
             }
-        });
+        } catch (err) {
+            this.removeTyping();
+            this.addMessage('Bağlantı hatası oluştu.', 'bot');
+        }
+    }
+
+    showInlineInput() {
+        this.removeInlineInput();
+        const wrap = document.createElement('div');
+        wrap.id = 'aiInlineInput';
+        wrap.style.cssText = 'display:flex; gap:0.5rem; padding:0.5rem 1rem 0.75rem; background:transparent;';
+        wrap.innerHTML = `
+            <input type="text" id="aiInlineField"
+                placeholder="İlac adını yazın..."
+                autocomplete="off"
+                style="flex:1; padding:0.6rem 0.9rem; border:2px solid var(--renk-birincil); border-radius:8px; outline:none; font-size:0.9rem; font-family:inherit;">
+            <button id="aiInlineSend"
+                style="background:var(--renk-birincil); color:#fff; border:none; border-radius:8px; padding:0 1rem; cursor:pointer; font-weight:700; font-size:0.85rem; white-space:nowrap;">
+                Sorgula
+            </button>
+        `;
+        this.messages.appendChild(wrap);
+        this.scrollToBottom();
+
+        const field = document.getElementById('aiInlineField');
+        const btn = document.getElementById('aiInlineSend');
+        field.focus();
+
+        const submit = () => {
+            const val = field.value.trim();
+            if (!val) return;
+            this.removeInlineInput();
+            this.sendMessage(val);
+        };
+        btn.addEventListener('click', submit);
+        field.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+    }
+
+    removeInlineInput() {
+        const el = document.getElementById('aiInlineInput');
+        if (el) el.remove();
     }
     
     addMessage(text, sender) {

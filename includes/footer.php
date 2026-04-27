@@ -77,12 +77,15 @@ if (mevcutRol() && $isPanelPage):
             <button class="ai-chat-close" id="aiChatClose" type="button" aria-label="Kapat"><?= svgIkon('x') ?></button>
         </div>
         <div class="ai-chat-messages" id="aiChatMessages">
-            <div class="ai-msg bot">Merhaba! Ben PharmaLink Sağlık Asistanı. Size nasıl yardımcı olabilirim?</div>
+            <div class="ai-msg bot">
+                Merhaba! Ben PharmaLink Sağlık Asistanı. Size nasıl yardımcı olabilirim?
+                <div class="ai-options">
+                    <button type="button" class="ai-option-btn">Nöbetçi eczaneler</button>
+                    <button type="button" class="ai-option-btn">Stok sorgula</button>
+                    <button type="button" class="ai-option-btn">Sağlık tavsiyeleri</button>
+                </div>
+            </div>
         </div>
-        <form class="ai-chat-form" id="aiChatForm">
-            <input type="text" id="aiChatInput" placeholder="Sorunuzu yazın..." autocomplete="off">
-            <button type="submit" aria-label="Gönder"><?= svgIkon('send') ?></button>
-        </form>
     </div>
     <button class="ai-chat-toggle" id="aiChatToggle" aria-label="Asistanı Aç">
         <?= svgIkon('message-circle') ?>
