@@ -13,6 +13,11 @@ $kulStmt = db()->prepare("SELECT * FROM kullanicilar WHERE id=?");
 $kulStmt->execute([$kid]);
 $kullanici = $kulStmt->fetch();
 
+// Session ile avatar_emoji'yi senkronize et
+if (!empty($kullanici['avatar_emoji'])) {
+    $_SESSION['avatar_emoji'] = $kullanici['avatar_emoji'];
+}
+
 $saatlerStmt = db()->prepare("SELECT * FROM eczane_calisma_saatleri WHERE eczane_id=? ORDER BY gun ASC");
 $saatlerStmt->execute([$eczane['id']]);
 $dbSaatler = $saatlerStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -129,6 +134,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         yonlendir(sayf('pharmacy/profile.php'));
     }
+    if ($islem === 'emoji_guncelle') {
+        $izinliEmojiler = ['🏥','💊','🩺','🔬','⚕️','🧬','💉','🩻','🧪','🌿','❤️','🩹'];
+        $seciliEmoji = $_POST['emoji'] ?? '🏥';
+        if (in_array($seciliEmoji, $izinliEmojiler)) {
+            try {
+                db()->prepare("UPDATE kullanicilar SET avatar_emoji=? WHERE id=?")->execute([$seciliEmoji, $kid]);
+                // Session güncelle ki header hemen değişsin
+                $_SESSION['avatar_emoji'] = $seciliEmoji;
+                // Profil resmini temizle (emoji seçince fotoğraf gizlensin)
+                $_SESSION['profil_resmi'] = '';
+                flashMesajAyarla('basari', 'Avatar emoji güncellendi: ' . $seciliEmoji);
+            } catch (\Exception $e) {
+                flashMesajAyarla('uyari', 'Emoji kaydedilemedi.');
+            }
+        }
+        yonlendir(sayf('pharmacy/profile.php'));
+    }
 }
 ?>
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAPS_API_KEY ?>&libraries=places&language=tr&v=weekly&callback=initMap" defer></script>
@@ -142,24 +164,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <div style="display:flex;flex-direction:column;gap:1.5rem;">
                 
-                <div class="kart" style="text-align:center;padding:2rem;">
-                    <div style="width:120px;height:120px;margin:0 auto 1.5rem;position:relative;">
+                <div class="kart" style="text-align:center; padding:2rem;">
+                    <!-- Avatar Gösterimi -->
+                    <div style="width:120px; height:120px; margin:0 auto 1rem; position:relative;">
                         <?php if ($kullanici['profil_resmi']): ?>
-                            <img src="<?= sayf('uploads/avatars/' . $kullanici['profil_resmi']) ?>" 
-                                 style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--renk-ikincil);">
-                        <?php else: ?>
-                            <div style="width:100%;height:100%;border-radius:50%;background:var(--arkaplan-hover);display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--renk-ikincil);border:2px dashed var(--kenar-rengi);">
-                                <?= initialsAvatar($_SESSION['kullanici_ad'] ?? 'U') ?>
+                            <img src="<?= sayf('uploads/avatars/' . $kullanici['profil_resmi']) ?>"
+                                 style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:3px solid var(--renk-birincil); box-shadow:0 4px 20px rgba(13,148,136,0.25);">
+                        <?php else:
+                            // Eczanedeki emoji avatarı varsa onu kullan, yoksa varsayılan
+                            $seciliEmoji = $kullanici['avatar_emoji'] ?? '🏥';
+                            $renkler = ['#0d9488','#0ea5e9','#8b5cf6','#f59e0b','#ef4444','#10b981'];
+                            $eczaneId = $eczane['id'] ?? 1;
+                            $renk = $renkler[$eczaneId % count($renkler)];
+                        ?>
+                            <div style="width:100%; height:100%; border-radius:50%; background:linear-gradient(135deg, <?= $renk ?>, <?= $renk ?>cc); display:flex; align-items:center; justify-content:center; font-size:3.5rem; border:3px solid <?= $renk ?>33; box-shadow:0 4px 20px <?= $renk ?>44;">
+                                <?= $seciliEmoji ?>
                             </div>
                         <?php endif; ?>
+                        <!-- Kamera ikonu rozeti -->
+                        <div style="position:absolute; bottom:0; right:0; width:32px; height:32px; background:var(--renk-birincil); border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid white; cursor:pointer;" onclick="document.getElementById('avatarFileInput').click();" title="Fotoğraf Değiştir">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        </div>
                     </div>
-                    <form method="post" enctype="multipart/form-data">
+
+                    <!-- İsim ve ünvan -->
+                    <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.25rem; color:var(--metin-birincil);">
+                        <?= e($kullanici['ad'] . ' ' . $kullanici['soyad']) ?>
+                    </h3>
+                    <p style="font-size:0.85rem; color:var(--metin-uc); margin-bottom:1.5rem;">
+                        🏥 <?= e($eczane['eczane_adi']) ?>
+                    </p>
+
+                    <!-- Fotoğraf Yükleme -->
+                    <form method="post" enctype="multipart/form-data" id="avatarForm">
                         <input type="hidden" name="islem" value="profil_resmi_yukle">
-                        <label class="btn btn-gri btn-sm" style="cursor:pointer;justify-content:center;width:100%;">
-                            <?= svgIkon('upload') ?> Fotoğraf Değiştir
-                            <input type="file" name="avatar" accept="image/*" style="display:none;" onchange="this.form.submit()">
-                        </label>
+                        <input type="file" id="avatarFileInput" name="avatar" accept="image/*" style="display:none;" onchange="this.form.submit()">
+                        <button type="button" onclick="document.getElementById('avatarFileInput').click();" class="btn btn-gri btn-sm" style="width:100%; justify-content:center; margin-bottom:0.75rem;">
+                            <?= svgIkon('upload') ?> Fotoğraf Yükle
+                        </button>
                     </form>
+
+                    <!-- Emoji Avatar Seçici (Fotoğraf yoksa) -->
+                    <?php if (!$kullanici['profil_resmi']): ?>
+                    <div style="border-top:1px solid var(--kenar-rengi); padding-top:1rem; margin-top:0.25rem;">
+                        <p style="font-size:0.75rem; color:var(--metin-uc); margin-bottom:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">veya emoji seç</p>
+                        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem;">
+                            <?php
+                            $emojiSecenekleri = ['🏥','💊','🩺','🔬','⚕️','🧬','💉','🩻','🧪','🌿','❤️','🩹'];
+                            foreach ($emojiSecenekleri as $em): ?>
+                            <button type="button"
+                                title="<?= $em ?> seç"
+                                onclick="document.getElementById('emojiValue').value='<?= $em ?>'; document.getElementById('emojiForm').submit();"
+                                style="font-size:1.5rem; width:40px; height:40px; border-radius:8px; border:2px solid var(--kenar-rengi); background:var(--arkaplan-hover); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center;"
+                                onmouseover="this.style.borderColor='var(--renk-birincil)'; this.style.transform='scale(1.15)';"
+                                onmouseout="this.style.borderColor='var(--kenar-rengi)'; this.style.transform='scale(1)';">
+                                <?= $em ?>
+                            </button>
+                            <?php endforeach; ?>
+                        </div>
+                        <form method="post" id="emojiForm">
+                            <input type="hidden" name="islem" value="emoji_guncelle">
+                            <input type="hidden" name="emoji" id="emojiValue" value="">
+                        </form>
+                    </div>
+                    <?php endif; ?>
                 </div>
                 
                 <div class="kart">

@@ -144,6 +144,8 @@ $bildirim_html = '
                     <button id="avatar-toggle" class="kullanici-avatar" aria-haspopup="true" aria-expanded="false" title="Profil Menüsü">
                         <?php if (!empty($_SESSION['profil_resmi'])): ?>
                             <img src="<?= sayf('uploads/avatars/' . e($_SESSION['profil_resmi'])) ?>" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                        <?php elseif (!empty($_SESSION['avatar_emoji'])): ?>
+                            <span style="font-size:1.4rem; line-height:1;"><?= e($_SESSION['avatar_emoji']) ?></span>
                         <?php else: ?>
                             <?= initialsAvatar($_SESSION['kullanici_ad'] ?? 'U') ?>
                         <?php endif; ?>
