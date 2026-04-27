@@ -257,7 +257,7 @@ render:
                     </div>
                 </div>
                 <div class="auth-form-group" style="margin-top:2rem;">
-                    <label class="nobetci-toggle" style="align-items: flex-start; gap: 1rem;">
+                    <label class="nobetci-toggle" style="align-items: flex-start; gap: 1rem; white-space: normal;">
                         <input type="checkbox" name="onay_sozlesme" required style="width:20px; height:20px; accent-color:var(--auth-accent); cursor:pointer;">
                         <span style="font-size:0.9rem; line-height:1.4; color:var(--auth-text-muted);">
                             <a href="<?= sayf('pages/legal.php?tab=terms') ?>" target="_blank" class="auth-link">Kullanım Şartları</a> ve 
@@ -267,7 +267,7 @@ render:
                 </div>
 
                 <div class="auth-form-group" style="margin-top:1rem; margin-bottom:2.5rem;">
-                    <label class="nobetci-toggle" style="align-items: flex-start; gap: 1rem;">
+                    <label class="nobetci-toggle" style="align-items: flex-start; gap: 1rem; white-space: normal;">
                         <input type="checkbox" name="onay_kvkk" required style="width:20px; height:20px; accent-color:var(--auth-accent); cursor:pointer;">
                         <span style="font-size:0.9rem; line-height:1.4; color:var(--auth-text-muted);">
                             <a href="<?= sayf('pages/legal.php?tab=kvkk') ?>" target="_blank" class="auth-link">KVKK Aydınlatma Metni</a>'ni okudum, anladım ve verilerimin işlenmesine onay veriyorum.
