@@ -31,7 +31,7 @@ if (!function_exists('panelUrl')) {
         return match ($rol) {
             'admin'     => 'admin/index.php',
             'eczane'    => 'pharmacy/index.php',
-            'kullanici' => 'user/reservations.php',
+            'kullanici' => 'user/index.php',
             default     => 'auth/login.php',
         };
     }
