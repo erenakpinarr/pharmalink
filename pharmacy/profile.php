@@ -265,9 +265,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <div style="display:flex; align-items:center; gap:1rem; padding:0.5rem 0; border-bottom:1px solid #e2e8f0;">
                                             <div style="width:100px; font-weight:600;"><?= $ad ?></div>
                                             <div style="display:flex; align-items:center; gap:0.5rem;">
-                                                <input type="time" name="acilis_<?= $k ?>" value="<?= e(substr($s['acilis']??'', 0, 5)) ?>" class="form-giris" style="width:110px;" <?= $s['kapali'] ? 'disabled' : '' ?> id="acilis_<?= $k ?>">
+                                                <input type="time" name="acilis_<?= $k ?>" value="<?= e(substr($s['acilis']??'', 0, 5)) ?>" class="form-giris" style="width:130px; min-width:130px;" <?= $s['kapali'] ? 'disabled' : '' ?> id="acilis_<?= $k ?>">
                                                 <span>-</span>
-                                                <input type="time" name="kapanis_<?= $k ?>" value="<?= e(substr($s['kapanis']??'', 0, 5)) ?>" class="form-giris" style="width:110px;" <?= $s['kapali'] ? 'disabled' : '' ?> id="kapanis_<?= $k ?>">
+                                                <input type="time" name="kapanis_<?= $k ?>" value="<?= e(substr($s['kapanis']??'', 0, 5)) ?>" class="form-giris" style="width:130px; min-width:130px;" <?= $s['kapali'] ? 'disabled' : '' ?> id="kapanis_<?= $k ?>">
                                             </div>
                                             <div style="display:flex; align-items:center; gap:0.5rem;">
                                                 <input type="checkbox" name="kapali_<?= $k ?>" id="kapali_<?= $k ?>" value="1" <?= $kapaliCheck ?> onchange="document.getElementById('acilis_<?= $k ?>').disabled = this.checked; document.getElementById('kapanis_<?= $k ?>').disabled = this.checked;">
