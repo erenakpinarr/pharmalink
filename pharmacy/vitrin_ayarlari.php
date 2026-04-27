@@ -106,7 +106,7 @@ include __DIR__ . '/../includes/header.php';
         <div class="alert alert-basari"><?= e($basari) ?></div>
     <?php endif; ?>
 
-    <form method="POST" enctype="multipart/form-data" class="kart" style="max-width: 900px;">
+    <form method="POST" enctype="multipart/form-data" class="kart" style="max-width: 900px; margin: 0 auto;">
         <?= csrf_field() ?>
         
         <div class="kart-baslik">
@@ -178,4 +178,4 @@ include __DIR__ . '/../includes/header.php';
     </form>
 </main>
 
-<?php include __DIR__ . '/../includes/header.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>
