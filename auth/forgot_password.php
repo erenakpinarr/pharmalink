@@ -65,16 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="<?= sayf('assets/css/style.css') ?>?v=<?= time() ?>">
 </head>
 <body class="auth-body">
+    <style>
+        .toggle-password svg {
+            position: static !important;
+            left: auto !important;
+            pointer-events: none !important;
+        }
+    </style>
     <div class="auth-wrapper">
-        <div class="auth-brand-side">
-            <div class="auth-brand-content">
-                <div style="background:var(--auth-accent); width:72px; height:72px; border-radius:22px; display:flex; align-items:center; justify-content:center; margin-bottom:3rem; box-shadow: 0 15px 35px -10px var(--auth-accent-glow); color:white;">
-                    <?= svgIkon('key') ?>
-                </div>
-                <h1>Hızlı Şifre<br>Kurtarma Portalı.</h1>
-                <p>Erişiminizi kaybettiyseniz endişelenmeyin. Kayıtlı e-posta adresinizi kullanarak güvenli bir şekilde şifrenizi yenileyebilirsiniz.</p>
-            </div>
-        </div>
         <div class="auth-form-side">
             <div class="auth-header">
                 <h2><?php 
@@ -123,16 +121,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token'] ?? '') ?>">
                     <div class="auth-form-group">
                         <label class="auth-label">Yeni Şifre</label>
-                        <div class="auth-input-box">
+                        <div class="auth-input-box" style="position: relative;">
                             <?= svgIkon('lock') ?>
-                            <input class="auth-input" type="password" name="sifre" required placeholder="Min. 8 karakter" id="reg_sifre">
+                            <input class="auth-input" type="password" name="sifre" required placeholder="Min. 8 karakter" id="reg_sifre" style="padding-right: 2.5rem;">
+                            <button type="button" class="toggle-password" onclick="togglePassword(this, 'reg_sifre')" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--auth-text-muted); padding: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px;" title="Şifreyi Göster/Gizle">
+                                <?= svgIkon('eye') ?>
+                            </button>
                         </div>
                     </div>
                     <div class="auth-form-group">
                         <label class="auth-label">Şifre Tekrar</label>
-                        <div class="auth-input-box">
+                        <div class="auth-input-box" style="position: relative;">
                             <?= svgIkon('check') ?>
-                            <input class="auth-input" type="password" name="sifre_tekrar" required placeholder="••••••••">
+                            <input class="auth-input" type="password" name="sifre_tekrar" id="reg_sifre_tekrar" required placeholder="••••••••" style="padding-right: 2.5rem;">
+                            <button type="button" class="toggle-password" onclick="togglePassword(this, 'reg_sifre_tekrar')" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--auth-text-muted); padding: 0; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px;" title="Şifreyi Göster/Gizle">
+                                <?= svgIkon('eye') ?>
+                            </button>
                         </div>
                     </div>
                     <div id="passwordRulesHint" style="margin-bottom:2rem; display:none;"></div>
@@ -159,5 +163,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         };
     </script>
     <script src="<?= sayf('assets/js/app.js') ?>?v=<?= time() ?>"></script>
+    <script>
+    function togglePassword(btn, inputId) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.innerHTML = '<?= str_replace("'", "\'", svgIkon('eye-off')) ?>';
+        } else {
+            input.type = 'password';
+            btn.innerHTML = '<?= str_replace("'", "\'", svgIkon('eye')) ?>';
+        }
+    }
+    </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 Bu dosya sistemdeki test hesaplarını ve erişim bilgilerini içerir. Tüm yeni eklenen hesapların şifresi varsayılan olarak `password` olarak ayarlanmıştır.
 
 ## Yönetici Hesapları
-- **Admin**: `admin@eczane.com` / `password`
+- **Admin**: `admin@eczane.com` / `Admin123!`
 
 ## Eczane Hesapları
 - **Akpınar Eczanesi**: `erenakpinar@gmail.com` / `password` (Önceki: `Akpinar123!`)
