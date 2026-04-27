@@ -1,0 +1,32 @@
+# PharmaLink - Git Ignore Rules
+
+# Environment Variables
+.env
+.env.local
+
+# Server Configs
+.htaccess
+
+# Composer (if used)
+vendor/
+composer.lock
+
+# Logs and Temp
+logs/
+*.log
+tmp/
+scratch/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Project Specific
+uploads/
+assets/uploads/
+*.pdf
+bin/
+
+# Database dumps
+*.sql
+!database/schema.sql
