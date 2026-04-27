@@ -103,7 +103,7 @@ $bildirim_html = '
                         }
                 ?>
                     <div class="nav-dropdown-kapsayici">
-                        <button class="panel-nav-link <?= $isSubActive ? 'aktif' : '' ?>" style="border:none; background:none; cursor:pointer;" onclick="this.nextElementSibling.classList.toggle('goster'); event.stopPropagation();">
+                        <button class="panel-nav-link <?= $isSubActive ? 'aktif' : '' ?>" style="border:none; background:none; cursor:pointer;" onclick="document.querySelectorAll('.nav-dropdown-menu').forEach(function(m){ if(m !== this.nextElementSibling) m.classList.remove('goster'); }.bind(this)); this.nextElementSibling.classList.toggle('goster'); event.stopPropagation();">
                             <?= svgIkon($item['icon']) ?>
                             <span><?= $item['label'] ?></span>
                             <?= svgIkon('chevron-down') ?>
