@@ -666,7 +666,87 @@ if (document.getElementById('drugSearchInput')) {
     new SearchAutocomplete('#drugSearchInput', '#autocompleteList', '#publicSearchForm');
 }
 
-/* PharmaBot class removed */
+class PharmaBot {
+    constructor() {
+        this.widget = document.getElementById('aiChatWidget');
+        this.toggleBtn = document.getElementById('aiChatToggle');
+        this.closeBtn = document.getElementById('aiChatClose');
+        this.form = document.getElementById('aiChatForm');
+        this.input = document.getElementById('aiChatInput');
+        this.messages = document.getElementById('aiChatMessages');
+        
+        if (this.widget && this.toggleBtn) {
+            this.init();
+        }
+    }
+    
+    init() {
+        this.toggleBtn.addEventListener('click', () => {
+            this.widget.classList.toggle('open');
+            if (this.widget.classList.contains('open')) {
+                this.input.focus();
+            }
+        });
+        
+        this.closeBtn.addEventListener('click', () => {
+            this.widget.classList.remove('open');
+        });
+        
+        this.form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = this.input.value.trim();
+            if (!text) return;
+            
+            this.addMessage(text, 'user');
+            this.input.value = '';
+            
+            this.showTyping();
+            
+            try {
+                const data = await ApiService.post('/api/ai_chat.php', { mesaj: text });
+                this.removeTyping();
+                if (data.basari) {
+                    this.addMessage(data.cevap, 'bot');
+                } else {
+                    this.addMessage("Üzgünüm, bir hata oluştu: " + data.mesaj, 'bot');
+                }
+            } catch (err) {
+                this.removeTyping();
+                this.addMessage("Bağlantı hatası oluştu.", 'bot');
+            }
+        });
+    }
+    
+    addMessage(text, sender) {
+        const div = document.createElement('div');
+        div.className = 'ai-msg ' + sender;
+        if (sender === 'bot') {
+            div.innerHTML = text;
+        } else {
+            div.textContent = text;
+        }
+        this.messages.appendChild(div);
+        this.scrollToBottom();
+    }
+    
+    showTyping() {
+        const div = document.createElement('div');
+        div.className = 'ai-msg bot typing-indicator';
+        div.id = 'aiTyping';
+        div.innerHTML = '<span></span><span></span><span></span>';
+        this.messages.appendChild(div);
+        this.scrollToBottom();
+    }
+    
+    removeTyping() {
+        const el = document.getElementById('aiTyping');
+        if (el) el.remove();
+    }
+    
+    scrollToBottom() {
+        this.messages.scrollTop = this.messages.scrollHeight;
+    }
+}
 
 class PasswordValidator {
     constructor(inputSelector, hintSelector) {
@@ -1180,6 +1260,7 @@ const App = {
             // Initialize Functional components
             if (typeof PharmaSearch !== 'undefined') PharmaSearch.init();
             if (typeof PubRoute !== 'undefined') PubRoute.init();
+            window.pharmaBot = new PharmaBot();
 
             this.bindGlobalEvents();
             console.log('PharmaLink App initialized successfully');

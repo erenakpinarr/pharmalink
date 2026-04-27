@@ -68,6 +68,27 @@ if (mevcutRol() && $isPanelPage):
         </div>
     </footer>
 <?php endif; ?>
+
+<!-- AI Chat Widget -->
+<div class="ai-chat-widget" id="aiChatWidget">
+    <div class="ai-chat-window">
+        <div class="ai-chat-header">
+            <h4><?= svgIkon('message-circle') ?> PharmaGPT Asistan</h4>
+            <button class="ai-chat-close" id="aiChatClose" type="button" aria-label="Kapat"><?= svgIkon('x') ?></button>
+        </div>
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <div class="ai-msg bot">Merhaba! Ben PharmaLink Sağlık Asistanı. Size nasıl yardımcı olabilirim?</div>
+        </div>
+        <form class="ai-chat-form" id="aiChatForm">
+            <input type="text" id="aiChatInput" placeholder="Sorunuzu yazın..." autocomplete="off">
+            <button type="submit" aria-label="Gönder"><?= svgIkon('send') ?></button>
+        </form>
+    </div>
+    <button class="ai-chat-toggle" id="aiChatToggle" aria-label="Asistanı Aç">
+        <?= svgIkon('message-circle') ?>
+    </button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <?php if (defined('GOOGLE_MAPS_API_KEY')): ?>
