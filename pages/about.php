@@ -49,7 +49,7 @@ include_once __DIR__ . '/../includes/header.php';
             </div>
             <div style="position:relative;">
                 <div style="position:absolute; inset: -20px; background:var(--renk-birincil-acik); border-radius:30px; transform:rotate(-2deg); z-index:-1;"></div>
-                <img src="https://images.unsplash.com/photo-1576091160550-217359f4ecf8?w=800&q=80" alt="Hakkımızda" style="border-radius:24px; box-shadow:0 20px 50px rgba(0,0,0,0.1); width:100%;">
+                <img src="<?= sayf('assets/img/about_team.png') ?>" alt="Hakkımızda" style="border-radius:24px; box-shadow:0 20px 50px rgba(0,0,0,0.1); width:100%;">
             </div>
         </div>
 
