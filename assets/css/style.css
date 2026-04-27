@@ -2015,9 +2015,9 @@ option {
     --auth-radius-lg: 12px;
     --auth-radius-md: 8px;
     --auth-radius-sm: 4px;
-    --auth-accent: #dc2626;
-    --auth-accent-hover: #b91c1c;
-    --auth-accent-glow: rgba(220, 38, 38, 0.1);
+    --auth-accent: #0d9488;
+    --auth-accent-hover: #0f766e;
+    --auth-accent-glow: rgba(13, 148, 136, 0.1);
     --auth-accent-secondary: #0f172a;
     --auth-success: #16a34a;
     --auth-bg: #f8fafc;
