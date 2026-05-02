@@ -277,14 +277,21 @@ function setNobetDurumu(hedefDurum) {
     }
 
     const formData = new FormData();
+    formData.append('islem', 'nobetci_guncelle');
     formData.append('durum', hedefDurum);
     formData.append('csrf_token', '<?= csrf_token() ?>');
 
-    fetch('api/nobet_guncelle.php', {
+    fetch('profile_islem.php', {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) throw new Error('Sunucu hatası: ' + res.status);
+        return res.json();
+    })
     .then(data => {
         btnBaslat.innerHTML = '<?= svgIkon('check') ?> Nöbeti Başlat';
         btnBaslat.disabled = false;
@@ -294,11 +301,15 @@ function setNobetDurumu(hedefDurum) {
         if (data.success) {
             location.reload();
         } else {
-            alert(data.message || 'Hata oluştu');
+            alert('Hata: ' + (data.message || 'Bilinmeyen bir hata oluştu.'));
         }
     })
     .catch(err => {
-        alert('Bağlantı hatası.');
+        btnBaslat.innerHTML = '<?= svgIkon('check') ?> Nöbeti Başlat';
+        btnBaslat.disabled = false;
+        btnBitir.innerHTML = '<?= svgIkon('x-circle') ?> Nöbeti Bitir';
+        btnBitir.disabled = false;
+        alert('Bağlantı hatası: ' + err.message);
     });
 }
 </script>
