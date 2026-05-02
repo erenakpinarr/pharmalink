@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /core/
+Disallow: /api/
+Disallow: /auth/login.php
+Disallow: /auth/register.php
+
+Sitemap: http://localhost/PharmaLink/sitemap.xml
