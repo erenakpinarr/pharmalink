@@ -6,7 +6,7 @@ Bu dosya sistemdeki test hesaplarını ve erişim bilgilerini içerir. Tüm yeni
 - **Admin**: `admin@eczane.com` / `Admin123!`
 
 ## Eczane Hesapları
-- **Akpınar Eczanesi**: `erenakpinar@gmail.com` / `password` (Önceki: `Akpinar123!`)
+- **Recep Akpınar Eczanesi**: `recepsevimler@gmail.com` / `Admin123!` (Önceki: `Akpinar123!`)
 - **Merkez Eczanesi**: `merkez.eczane@gmail.com` / `password`
 - **Hayat Eczanesi**: `hayat.eczane@gmail.com` / `password`
 - **Şifa Eczanesi**: `sifa.eczane@gmail.com` / `password`
