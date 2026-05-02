@@ -12,9 +12,9 @@ if (mevcutRol() && $isPanelPage):
     <footer class="corp-footer">
         <div class="corp-footer-grid">
             <div class="footer-col brand-col">
-                <div class="corp-nav-logo" style="color:var(--renk-birincil); margin-bottom:1.5rem;">
-                    <img src="<?= sayf('assets/img/logo.png') ?>" alt="PharmaLink Logo" style="height:60px; width:auto; object-fit:contain;">
-                    <?= APP_NAME ?>
+                <div class="corp-nav-logo" style="color:var(--renk-birincil); margin-bottom:0.5rem; display:flex; align-items:center; gap:0;">
+                    <img src="<?= sayf('assets/img/logo_header.png') ?>" alt="PharmaLink Logo" style="height:110px; width:auto; object-fit:contain; margin-right:-15px; position:relative; top:-2px;">
+                    <span style="font-weight:800; font-size:1.6rem; letter-spacing:-0.02em; color:var(--renk-birincil);"><?= APP_NAME ?></span>
                 </div>
                 <p style="color:var(--metin-ikincil); line-height:1.7; font-size:0.95rem;">
                     Türkiye'nin en hızlı ve güvenilir ilaç stok takip platformu. Sağlığınız için teknolojiyi eczanenize getiriyoruz.
