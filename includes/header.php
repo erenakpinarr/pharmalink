@@ -79,10 +79,8 @@ $bildirim_html = '
     <div class="app-main">
         <header class="app-topbar">
             <div class="topbar-sol">
-                <a href="<?= sayf('/') ?>" class="sidebar-marka" style="border:none; height:auto; padding:0; gap:0.6rem;">
-                    <div style="width:32px; height:32px; background:var(--renk-birincil); border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff;">
-                        <?= svgIkon('plus') ?>
-                    </div>
+                <a href="<?= sayf('/') ?>" class="sidebar-marka" style="border:none; height:auto; padding:0; gap:0;">
+                    <img src="<?= sayf('assets/img/logo_header.png') ?>" alt="PharmaLink Logo" style="height:110px; width:auto; margin: -10px -15px -10px -10px; object-fit:contain; vertical-align: middle;">
                     <span><?= APP_NAME ?></span>
                 </a>
                 <div style="width:1px; height:24px; background:var(--kenar-rengi); margin:0 0.5rem;"></div>
@@ -171,10 +169,8 @@ $bildirim_html = '
 <?php else: ?>
 <nav class="corp-navbar" id="navbar">
     <div class="corp-navbar-container">
-        <a href="<?= sayf('/') ?>" class="corp-nav-logo">
-            <div style="width:36px; height:36px; background:var(--renk-birincil); border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff;">
-                <?= svgIkon('plus') ?>
-            </div>
+        <a href="<?= sayf('/') ?>" class="corp-nav-logo" style="display: flex; align-items: center; gap: 0;">
+            <img src="<?= sayf('assets/img/logo_header.png') ?>" alt="PharmaLink Logo" style="height:110px; width:auto; margin: -10px -15px -10px -10px; object-fit:contain; vertical-align: middle;">
             <?= APP_NAME ?>
         </a>
         <div class="corp-nav-links">

@@ -96,8 +96,11 @@ render:
     </style>
     <div class="auth-wrapper">
         <div class="auth-form-side">
-            <div class="auth-header">
-                <h2>Merhaba!</h2>
+            <div class="auth-header" style="text-align: center; margin-bottom: 0;">
+                <a href="<?= sayf('/') ?>" style="display: block; margin: 0;">
+                    <img src="<?= sayf('assets/img/logo.png') ?>" alt="PharmaLink Logo" style="width: 100%; max-width: 280px; height: auto; margin: -3.5rem 0; object-fit: contain;">
+                </a>
+                <h2 style="margin-top: 0;">Merhaba!</h2>
                 <p>Hesabına güvenle giriş yapabilirsin.</p>
             </div>
             <?php if ($hata): ?>

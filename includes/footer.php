@@ -13,9 +13,7 @@ if (mevcutRol() && $isPanelPage):
         <div class="corp-footer-grid">
             <div class="footer-col brand-col">
                 <div class="corp-nav-logo" style="color:var(--renk-birincil); margin-bottom:1.5rem;">
-                    <div style="width:36px; height:36px; background:var(--renk-birincil); border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff;">
-                        <?= svgIkon('plus') ?>
-                    </div>
+                    <img src="<?= sayf('assets/img/logo.png') ?>" alt="PharmaLink Logo" style="height:60px; width:auto; object-fit:contain;">
                     <?= APP_NAME ?>
                 </div>
                 <p style="color:var(--metin-ikincil); line-height:1.7; font-size:0.95rem;">
